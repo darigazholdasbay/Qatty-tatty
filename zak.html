@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заказывать</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .order-form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .order-form h1 {
+            color: #ff6f61;
+            margin-bottom: 20px;
+        }
+        .order-form label {
+            display: block;
+            text-align: left;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .order-form input, 
+        .order-form button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .order-form button {
+            background-color: #ff6f61;
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+        .order-form button:hover {
+            background-color: #e55c50;
+        }
+        .success-message {
+            display: none;
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="order-form">
+        <h1>Заказать</h1>
+        <form id="orderForm">
+            <label for="name">Неге тапсырыс бергіңіз келеді:</label>
+            <input type="text" id="name" name="name" placeholder=" енгізіңіз" required>
+
+            <label for="name">Атыңыз:</label>
+            <input type="text" id="name" name="name" placeholder="Атыңызды енгізіңіз" required>
+
+            <label for="phone">Телефон нөміріңіз:</label>
+            <input type="tel" id="phone" name="phone" placeholder="Телефон нөміріңізді енгізіңіз" required>
+
+            <button type="submit">Жіберу</button>
+        </form>
+        <p class="success-message" id="successMessage">Сіздің тапсырысыңыз қабылданды!</p>
+    </div>
+
+    <script>
+        const orderForm = document.getElementById('orderForm');
+        const successMessage = document.getElementById('successMessage');
+
+        orderForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Остановить отправку формы
+
+            // Здесь можно добавить отправку данных на сервер
+            // Например, с помощью fetch()
+
+            // Показать сообщение об успешной отправке
+            successMessage.style.display = 'block';
+
+            // Очистить форму
+            orderForm.reset();
+        });
+    </script>
+</body>
+</html>

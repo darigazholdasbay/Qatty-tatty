@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>QATTY-TATTY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f5f5f5;
+      color: #559b7d;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+
+
+   
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      z-index: 1000;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+      transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    header.scrolled {
+      background: rgba(3, 88, 51, 0.8);
+      box-shadow: 0 4px 20px rgba(25, 80, 48, 0.2);
+      color: white;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: rgb(12, 61, 32);
+      transition: color 0.3s ease;
+    }
+
+    .logo:hover {
+      color: #e1cfcf;
+    }
+
+    
+    nav ul {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+      margin-left: auto;
+      position: relative;
+    }
+
+    nav ul li {
+      position: relative;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #559b7d;
+      font-size: 15px;
+      text-transform: uppercase;
+      padding: 1px;
+      transition: color 0.3s ease, transform 0.2s ease;
+    }
+
+    nav ul li a:hover {
+      color: #e1cfcf;
+      transform: scale(1.1);
+    }
+
+   
+    nav ul li:hover .dropdown {
+      display: block;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #fff;
+      box-shadow: 0 8px 16px rgba(24, 70, 46, 0.2);
+      min-width: 160px;
+      z-index: 1000;
+      padding: 10px;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 10px;
+      color: #1e4935;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+
+    .dropdown a:hover {
+      background-color: #ddd;
+    }
+
+
+    .mobile-menu-icon {
+      display: none;
+      font-size: 30px;
+      cursor: pointer;
+      color: #1e4935;
+    }
+
+    .nav-links {
+      display: flex;
+    }
+
+    .nav-links.mobile-active {
+      display: block;
+      position: absolute;
+      top: 80px;
+      left: 0;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      z-index: 999;
+    }
+
+    .video-background {
+      position: relative;
+      height: 800px;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .video-background video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.5);
+    }
+
+    .content-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: #fff;
+      z-index: 10;
+      text-shadow: 2px 2px 10px#1e4935(0, 0, 0, 0.5);
+    }
+
+    .content-overlay h1 {
+      font-size: 60px;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .content-overlay a {
+      padding: 15px 30px;
+      text-decoration: none;
+      color: #fff;
+      background: #1e4935;
+      border-radius: 5px;
+      transition: background 0.3s ease-in-out;
+    }
+
+    .content-overlay a:hover {
+      background: #75d8ab;
+    }
+
+   
+    footer {
+      background: #1e4935;
+      color: #fff;
+      padding: 40px 20px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    footer a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-logo {
+      font-size: 20px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .footer-logo span {
+      color: #e1cfcf;
+    }
+
+   
+    .scroll-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #1e4935;
+      color: white;
+      padding: 15px;
+      border-radius: 50%;
+      display: none;
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    .scroll-to-top:hover {
+      background: #154d2e;
+    }
+
+ 
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s, transform 1s;
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+.hero {
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 400px;
+}
+
+
+
+
+
+/* Базовые стили для десктопа */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #333;
+  color: #fff;
+}
+
+.nav {
+  display: flex;
+  gap: 15px;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 16px;
+}
+
+
+
+
+
+
+       
+        
+
+      
+  
+
+
+   
+
+
+
+  </style>
+</head>
+<body>
+
+  
+  <header>
+    <div class="footer-logo">QATTY-TATTY <span></span></div>
+    <nav>
+      <ul>
+        
+        <li><a href="bub.html">Bubble Tea</a>
+          <div class="dropdown">
+            <a href="bub1.html">Blue matcha</a>
+            <a href="bub2.html">Oreo</a>
+            <a href="bub3.html">Sakura</a>
+          </div>
+        </li>
+        <li><a href="pan.html">Pankeiki</a>
+          <div class="dropdown">
+            <a href="pan1.html">Ягодный</a>
+            <a href="pan2.html">Нутелла</a>
+            <a href="pan.html">Таро</a>
+          </div>
+        </li>
+        <li><a href="moti.html">Moti</a></li>
+        <li><a href="menu.html">Menu</a></li>
+     
+      </ul>
+    </nav>
+    <div class="mobile-menu-icon">
+      <i class="fas fa-bars"></i>
+    </div>
+    <div class="search">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search" placeholder="Поиск" oninput="showDropdown()">
+      <ul id="dropdown" style="display: none; list-style-type: none; padding: 0; margin: 0; border: 1px solid #ccc; width: 200px; background: #fff; position: absolute; z-index: 10;">
+        <li style="padding: 5px; cursor: pointer;">
+          <a href="bub.html" style="text-decoration: none; color: black;" onclick="selectOption(this)">Bubble Tea</a>
+        </li>
+        <li style="padding: 5px; cursor: pointer;">
+          <a href="pan.html" style="text-decoration: none; color: black;" onclick="selectOption(this)">Pankeiki</a>
+        </li>
+        <li style="padding: 5px; cursor: pointer;">
+          <a href="moti.html" style="text-decoration: none; color: black;" onclick="selectOption(this)">Moti</a>
+        </li>
+      </ul>
+    </div>
+    
+    <script>
+      function showDropdown() {
+        const dropdown = document.getElementById("dropdown");
+        const searchInput = document.getElementById("search").value;
+        if (searchInput.trim() !== "") {
+          dropdown.style.display = "block";
+        } else {
+          dropdown.style.display = "none";
+        }
+      }
+    
+      function selectOption(link) {
+        document.getElementById("search").value = link.innerText;
+        document.getElementById("dropdown").style.display = "none";
+      }
+    
+      document.addEventListener("click", function (e) {
+        const dropdown = document.getElementById("dropdown");
+        const searchBox = document.getElementById("search");
+        if (!dropdown.contains(e.target) && e.target !== searchBox) {
+          dropdown.style.display = "none";
+        }
+      });
+    
+        function toggleMenu() {
+            const nav = document.getElementById('nav-menu');
+            nav.classList.toggle('active');
+        }
+  
+    </script>
+  </header>
+
+  
+  <div class="video-background">
+    <video autoplay muted loop>
+      <source src="v.mp4" type="video/mp4">
+    
+    </video>
+    <div class="content-overlay">
+      <h1>Добро пожаловать!</h1>
+      <a href="zak.html"> Заказать сейчас</a>
+    </div>
+  </div>
+
+  
+  <section class="product-carousel">
+    <h2>Популярное</h2>
+    <div class="carousel">
+      <div class="carousel">
+        <img src="p.jpg" alt="" width="1800px" height="1500px">
+        
+        
+      </div>
+      <div class="carousel">
+        <img src="b.jpg" alt="Продукт 2" width="1800px" height="1500">
+        
+        
+      </div>
+    </div>
+  </section>
+ 
+ 
+  <footer>
+    <div class="footer-logo">QATTY-TATTY <span></span></div>
+    <p>&copy; 2024 QATTY-TATTY. Все права защищены.</p>
+    <p><a href="#">Контакты</a> | <a href="#">8 778 273 1210</a></p>
+    <div class="social-links">
+        <h3>Мы в социальных сетях</h3>
+        <a href="https://www.instagram.com/qatty_tatty/" target="_blank">Instagram</a>
+
+        <h3>Адрес</h3>
+        <a href="https://2gis.kz/almaty/firm/70000001075149118" target="_blank">2gis</a>
+        
+    </div>
+  </footer>
+
+ 
+  <button class="scroll-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  
+  <script>
+    document.querySelector('.mobile-menu-icon').addEventListener('click', function() {
+      document.querySelector('nav ul').classList.toggle('mobile-active');
+    });
+
+    window.onscroll = function() {
+      var header = document.querySelector('header');
+      var scrollToTopButton = document.querySelector('.scroll-to-top');
+
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+        scrollToTopButton.style.display = 'block';
+      } else {
+        header.classList.remove('scrolled');
+        scrollToTopButton.style.display = 'none';
+      }
+
+      var elements = document.querySelectorAll('.animate-on-scroll');
+      elements.forEach(function(element) {
+        if (isElementInViewport(element)) {
+          element.classList.add('visible');
+        }
+      });
+    };
+
+    function isElementInViewport(el) {
+      var rect = el.getBoundingClientRect();
+      return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+      );
+    }
+    document.querySelector('.menu-toggle').addEventListener('click', () => {
+    const menu = document.querySelector('nav ul');
+    menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+});
+const menuToggle = document.querySelector('.menu-toggle');
+const nav = document.querySelector('.nav');
+
+menuToggle.addEventListener('click', () => {
+  nav.classList.toggle('active');
+});
+  </script>
+
+</body>
+</html>
